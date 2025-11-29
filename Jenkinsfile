@@ -1,8 +1,8 @@
 pipeline {
   agent any
-  tools {
-    go 'go-1.25.4'
-  }
+//   tools {
+//     go 'go-1.25.4'
+//   }
 
   environment {
     GO111MODULE = 'on' //YOU MUST set this to 'on' to use Go Modules
