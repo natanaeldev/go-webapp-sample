@@ -1,23 +1,31 @@
 pipeline {
   agent any
-//   tools {
-//     go 'go-1.25.4'
-//   }
+  tools {
+    go 'go-1.25.4'
+  }
 
   environment {
     GO111MODULE = 'on' //YOU MUST set this to 'on' to use Go Modules
   }
   stages {
-    stage('Development') {
+    stage('Test') {
       steps {
         git 'https://github.com/natanaeldev/go-webapp-sample.git'
-        // sh 'go test ./...'
+        sh 'go test ./...'
       }
     }
-    stage('Building our image') {
+    stage('Build') {
       steps {
         script {
-          app = docker.build("natanaeldev/go-webapp-sample")
+           git 'https://github.com/natanaeldev/go-webapp-sample.git'
+           sh 'go build'
+        }
+      }
+    }
+    stage('Run') {
+      steps {
+        script {
+          sh 'cd /var/lib/jenkins/workspace/go-full-pipeline && ./go-webapp-sample &'
         }
       }
     }
